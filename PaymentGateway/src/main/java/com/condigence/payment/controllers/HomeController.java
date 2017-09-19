@@ -1,8 +1,15 @@
 package com.condigence.payment.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.condigence.payment.dto.PaymentOrder;
 
 @Controller
 public class HomeController {
@@ -12,63 +19,28 @@ public class HomeController {
 	private String message = "Hello World";
 
 	@RequestMapping("/")
-	public String login() {
-		return "index";
+	public ModelAndView login() {
+		ModelAndView modelAndView = new ModelAndView();
+		PaymentOrder paymentOrder = new PaymentOrder();
+		modelAndView.addObject("paymentOrder", paymentOrder);
+		modelAndView.setViewName("index");	
+		
+		
+		return modelAndView;
 	}
 
-	@RequestMapping("/home")
-	public String home() {
-		return "home";
+	@RequestMapping(value = "/payment", method = RequestMethod.POST)
+	public ModelAndView createNewPaymentRequest(@Valid PaymentOrder paymentOrder, BindingResult bindingResult) {
+		
+		System.out.println(" hello calling ......  ");
+		
+		System.out.println(" Payment controller called ......  ");
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.setViewName("index");
+		modelAndView.addObject("paymentOrder", new PaymentOrder());
+		return modelAndView;
 	}
-
-	@RequestMapping("/dashboard")
-	public String dashboard() {
-		return "dashboard";
-	}
-
-	@RequestMapping("/user")
-	public String user() {
-		return "user";
-	}
-
-	@RequestMapping("/appointment")
-	public String appointment() {
-		return "appointment";
-	}
-
-	@RequestMapping("/doctor")
-	public String doctor() {
-		return "doctor";
-	}
-
-	@RequestMapping("/patient")
-	public String patient() {
-		return "patient";
-	}
-
-	@RequestMapping("/user-type")
-	public String userType() {
-		return "service";
-	}
-
-	@RequestMapping("/service-type")
-	public String serviceType() {
-		return "service";
-	}
-
-	@RequestMapping("/commission")
-	public String commission() {
-		return "commission";
-	}
-
-	@RequestMapping("/billing")
-	public String billing() {
-		return "billing";
-	}
-
-	@RequestMapping("/report")
-	public String report() {
-		return "report";
-	}
+	
 
 }
